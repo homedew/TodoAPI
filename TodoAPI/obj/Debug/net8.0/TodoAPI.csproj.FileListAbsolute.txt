@@ -43,3 +43,4 @@
 /Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/obj/Debug/net8.0/TodoAPI.pdb
 /Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/obj/Debug/net8.0/TodoAPI.genruntimeconfig.cache
 /Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/obj/Debug/net8.0/ref/TodoAPI.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/obj/Debug/net8.0/TodoAPI.sourcelink.json

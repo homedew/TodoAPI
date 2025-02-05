@@ -49,7 +49,7 @@ namespace TodoAPI.API
         public async Task<ActionResult<TodoItem>> PostTodo(TodoItem todo)
         {
             await _repository.AddAsync(todo);
-            return CreatedAtAction(nameof(GetTodo), new { id = todo.Id });
+            return CreatedAtAction(nameof(GetTodo), new { id = todo.Id }, todo);
         }
 
         [HttpPut("{id}")]
