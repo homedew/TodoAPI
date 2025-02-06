@@ -44,3 +44,8 @@
 /Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/obj/Debug/net8.0/TodoAPI.genruntimeconfig.cache
 /Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/obj/Debug/net8.0/ref/TodoAPI.dll
 /Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/obj/Debug/net8.0/TodoAPI.sourcelink.json
+/Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/bin/Debug/net8.0/FluentValidation.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/bin/Debug/net8.0/FluentValidation.AspNetCore.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/bin/Debug/net8.0/FluentValidation.DependencyInjectionExtensions.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/bin/Debug/net8.0/AutoMapper.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/bin/Debug/net8.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll

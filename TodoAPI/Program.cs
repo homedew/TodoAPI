@@ -1,7 +1,9 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using TodoAPI.Database;
 using TodoAPI.Repository;
+using TodoAPI.Validator;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +22,8 @@ builder.Services.AddSwaggerGen(c=> {
 });
 builder.Services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
-
+builder.Services.AddValidatorsFromAssemblyContaining<TodoValidator>();
+builder.Services.AddAutoMapper(typeof(Program));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
