@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using TodoAPI.Database;
 using TodoAPI.Repository;
+using TodoAPI.Services;
 using TodoAPI.Validator;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,10 @@ builder.Services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoL
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 builder.Services.AddValidatorsFromAssemblyContaining<TodoValidator>();
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddMemoryCache();
+builder.Services.AddScoped<ITodoService, TodoService>();
+// Todo: think about if we have a lot of services, need to automicaly register
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

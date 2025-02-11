@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using TodoAPI.Database;
 using TodoAPI.Entity;
 
@@ -11,9 +12,13 @@ namespace TodoAPI.Repository
     public class TodoRepository : ITodoRepository
     {
         private readonly TodoContext _context;
-        public TodoRepository(TodoContext context)
+        private readonly ILogger<TodoRepository> _logger;
+        private readonly IMemoryCache _cache;
+        public TodoRepository(TodoContext context, ILogger<TodoRepository> logger, IMemoryCache cache)
         {
-            _context = context;           
+            _context = context;
+            _logger = logger;
+            _cache = cache;
         }
 
         public async Task AddAsync(TodoItem item)
@@ -24,12 +29,8 @@ namespace TodoAPI.Repository
 
         public async Task DeleteAsync(int id)
         {
-            var item = await GetByIdAsync(id);
-            
-            if(item is not null) {
-                _context.TodoItems.Remove(item);
-                await _context.SaveChangesAsync();
-            }
+            _context.TodoItems.Remove(new TodoItem { Id = id });
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> ExistsAsync(int id)

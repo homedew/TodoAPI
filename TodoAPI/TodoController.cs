@@ -31,10 +31,12 @@ namespace TodoAPI.API
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos()
+        public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos([FromQuery] int page = 1,[FromQuery] int pageSize = 10)
         {
             var todos = await _repository.GetAllAsync();
-            return Ok(_mapper.Map<List<TodoDto>>(todos));
+            var paginatedTodos = todos.Skip((page - 1) * pageSize).Take(pageSize);
+            
+            return Ok(new {page, pageSize, data = _mapper.Map<List<TodoDto>>(paginatedTodos)});
         }
 
         [HttpGet("{id}")]
