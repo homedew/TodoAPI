@@ -31,12 +31,12 @@ namespace TodoAPI.API
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos([FromQuery] int page = 1,[FromQuery] int pageSize = 10)
+        public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var todos = await _repository.GetAllAsync();
             var paginatedTodos = todos.Skip((page - 1) * pageSize).Take(pageSize);
-            
-            return Ok(new {page, pageSize, data = _mapper.Map<List<TodoDto>>(paginatedTodos)});
+
+            return Ok(new { page, pageSize, data = _mapper.Map<List<TodoDto>>(paginatedTodos) });
         }
 
         [HttpGet("{id}")]
@@ -89,8 +89,21 @@ namespace TodoAPI.API
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTodo(int id)
         {
-            await _repository.DeleteAsync(id);
-            return NoContent();
+            try
+            {
+                await _repository.DeleteAsync(id);
+                return NoContent();
+            }
+            catch(KeyNotFoundException ex)
+            {
+                return NotFound(new {message = ex.Message});
+            }      
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error deleting todo item with id {id}", id);
+                return StatusCode(500, "Internal Server Error");
+            }
+
         }
     }
 

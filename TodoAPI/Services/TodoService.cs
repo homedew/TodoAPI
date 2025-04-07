@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TodoAPI.Dtos;
 using TodoAPI.Entity;
 using TodoAPI.Repository;
@@ -13,10 +14,12 @@ namespace TodoAPI.Services
     {
         private readonly ITodoRepository _repository;
         private readonly IMapper _mapper;
-        public TodoService(ITodoRepository todoRepository, IMapper mapper)
+        private readonly ILogger _logger;
+        public TodoService(ITodoRepository todoRepository, IMapper mapper, ILogger logger)
         {
             _repository = todoRepository;
             _mapper = mapper;
+            _logger = logger;
         }
         public async Task AddTodoAsync(TodoDto todo)
         {
@@ -26,7 +29,14 @@ namespace TodoAPI.Services
 
         public async Task DeleteToDoAsync(int id)
         {
+            if (!await _repository.ExistsAsync(id))
+            {
+                _logger.LogWarning("Todo item not found with ID {id}", id);
+                throw new KeyNotFoundException($"Todo item with Id {id} not found");
+            }
+
             await _repository.DeleteAsync(id);
+
         }
 
         public async Task<List<TodoDto>> GetAllTodosAsync()
@@ -39,7 +49,7 @@ namespace TodoAPI.Services
         public async Task<TodoDto?> GetTodoByIdAsync(int id)
         {
             var todos = await _repository.GetByIdAsync(id);
-            
+
             return _mapper.Map<TodoDto>(todos);
         }
 
