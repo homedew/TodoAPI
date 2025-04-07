@@ -11,6 +11,8 @@ namespace TodoAPI.API
 {
 
     [ApiController]
+    //  [ApiVersion("1.0")]
+    // [Route("api/v{version: apiVersion}/[controller]")]
     [Route("api/[controller]")]
     public class TodoController : BaseController
     {
@@ -30,6 +32,7 @@ namespace TodoAPI.API
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ApiVersion("1.0")]
         public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
 
@@ -51,6 +54,8 @@ namespace TodoAPI.API
         }
 
         [HttpGet("{id}")]
+        [ApiVersion("1.0")]
+        [Route("v{version: apiVersion}")]
         public async Task<ActionResult<TodoDto>> GetTodo(int id)
         {
             var todo = await _todoService.GetTodoByIdAsync(id);

@@ -49,3 +49,5 @@
 /Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/bin/Debug/net8.0/FluentValidation.DependencyInjectionExtensions.dll
 /Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/bin/Debug/net8.0/AutoMapper.dll
 /Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/bin/Debug/net8.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.Versioning.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/TodoAPI/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer.dll
