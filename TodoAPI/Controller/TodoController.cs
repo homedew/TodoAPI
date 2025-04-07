@@ -1,30 +1,29 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TodoAPI.Database;
 using TodoAPI.Dtos;
 using TodoAPI.Entity;
+using TodoAPI.Helper;
 using TodoAPI.Repository;
+using TodoAPI.Services;
 
 namespace TodoAPI.API
 {
 
     [ApiController]
     [Route("api/[controller]")]
-    public class TodoController : ControllerBase
+    public class TodoController : BaseController
     {
         private readonly ITodoRepository _repository;
+        private readonly ITodoService _todoService;
         private readonly ILogger<TodoController> _logger;
         private readonly IMapper _mapper;
-        public TodoController(ITodoRepository repository, ILogger<TodoController> logger, IMapper mapper)
+        public TodoController(ITodoRepository repository, ILogger<TodoController> logger, IMapper mapper, ITodoService todoService)
         {
             _repository = repository;
             _logger = logger;
             _mapper = mapper;
+            _todoService = todoService;
         }
 
 
@@ -33,16 +32,28 @@ namespace TodoAPI.API
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
-            var todos = await _repository.GetAllAsync();
-            var paginatedTodos = todos.Skip((page - 1) * pageSize).Take(pageSize);
 
-            return Ok(new { page, pageSize, data = _mapper.Map<List<TodoDto>>(paginatedTodos) });
+            // todo handle paging in service
+            var todos =  _todoService.GetAllTodos();
+            var totalCount = await todos.CountAsync();
+
+            var paginatedTodos = todos.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(); 
+            var data = _mapper.Map<List<TodoDto>>(paginatedTodos);
+
+            var response = new PagedResponse<TodoDto> {
+                Page = page,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                Data = data
+            };
+
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TodoDto>> GetTodo(int id)
         {
-            var todo = await _repository.GetByIdAsync(id);
+            var todo = await _todoService.GetTodoByIdAsync(id);
 
             if (todo is null)
             {
@@ -55,9 +66,11 @@ namespace TodoAPI.API
         [HttpPost]
         public async Task<ActionResult<TodoDto>> PostTodo(TodoDto todo)
         {
-            // controller cant access directly to entity
-            // have to seperate services
-            await _repository.AddAsync(_mapper.Map<TodoItem>(todo));
+            try {
+                 await _todoService.AddTodoAsync(todo);
+            } catch(Exception ex) {
+                return StatusCode(500,  "Internal Server Error");
+            }
             return CreatedAtAction(nameof(GetTodo), new { id = todo.Id }, todo);
         }
 
@@ -71,7 +84,7 @@ namespace TodoAPI.API
 
             try
             {
-                await _repository.UpdateAsync(_mapper.Map<TodoItem>(todo));
+                await _todoService.UpdateTodoAsync(todo.Id, todo);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -91,7 +104,7 @@ namespace TodoAPI.API
         {
             try
             {
-                await _repository.DeleteAsync(id);
+                await _todoService.DeleteToDoAsync(id);
                 return NoContent();
             }
             catch(KeyNotFoundException ex)
@@ -103,8 +116,6 @@ namespace TodoAPI.API
                 _logger.LogError(ex, "Error deleting todo item with id {id}", id);
                 return StatusCode(500, "Internal Server Error");
             }
-
         }
     }
-
 }

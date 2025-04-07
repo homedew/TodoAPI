@@ -8,7 +8,7 @@ namespace TodoAPI.Services
 {
     public interface ITodoService
     {
-        Task<List<TodoDto>> GetAllTodosAsync();
+        IQueryable<TodoDto> GetAllTodos();
         Task<TodoDto?>  GetTodoByIdAsync(int id);
         Task AddTodoAsync(TodoDto todo);
         Task UpdateTodoAsync(int id, TodoDto todo);

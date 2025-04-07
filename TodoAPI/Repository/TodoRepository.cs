@@ -34,9 +34,9 @@ namespace TodoAPI.Repository
             return await _context.TodoItems.AnyAsync(e => e.Id == id);
         }
 
-        public async Task<List<TodoItem>> GetAllAsync()
+        public  IQueryable<TodoItem> GetAllAsync()
         {
-            return await _context.TodoItems.ToListAsync();
+            return  _context.TodoItems.AsNoTracking();
         }
 
         public async Task<TodoItem?> GetByIdAsync(int id)

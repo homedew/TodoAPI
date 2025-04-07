@@ -14,8 +14,8 @@ namespace TodoAPI.Services
     {
         private readonly ITodoRepository _repository;
         private readonly IMapper _mapper;
-        private readonly ILogger _logger;
-        public TodoService(ITodoRepository todoRepository, IMapper mapper, ILogger logger)
+        private readonly ILogger<TodoService> _logger;
+        public TodoService(ITodoRepository todoRepository, IMapper mapper, ILogger<TodoService> logger)
         {
             _repository = todoRepository;
             _mapper = mapper;
@@ -39,10 +39,10 @@ namespace TodoAPI.Services
 
         }
 
-        public async Task<List<TodoDto>> GetAllTodosAsync()
+        public IQueryable<TodoDto> GetAllTodos()
         {
-            var todos = await _repository.GetAllAsync();
-            return _mapper.Map<List<TodoDto>>(todos);
+            var todos =  _repository.GetAllAsync();
+            return _mapper.Map<IQueryable<TodoDto>>(todos);
 
         }
 
