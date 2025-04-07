@@ -13,5 +13,12 @@ Todo API
     ## Memory cache (Use Memory Cache or Redis)
     builder.Services.AddMemoryCache();
 
+    ## API versioning
+    dotnet add package Microsoft.AspNetCore.Mvc.Versioning
+
+    Integrate with Swagger
+    dotnet add package Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer 
+    
 # To do enhancement
 How to run load test
+cac dung ProducesResponseType
