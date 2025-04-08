@@ -69,7 +69,8 @@ namespace TodoAPI.API
             return Ok(_mapper.Map<TodoDto>(todo));
         }
 
-        [HttpPost]
+        [HttpPost("v{version:apiVersion}/postTodo")]
+        [ApiVersion("1.0")]
         public async Task<ActionResult<TodoDto>> PostTodo(TodoDto todo)
         {
             try {
@@ -80,7 +81,8 @@ namespace TodoAPI.API
             return CreatedAtAction(nameof(GetTodo), new { id = todo.Id }, todo);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("v{version:apiVersion}/{id}")]
+        [ApiVersion("1.0")]
         public async Task<ActionResult> PutTodo(int id, TodoDto todo)
         {
             if (id != todo.Id)
@@ -105,7 +107,8 @@ namespace TodoAPI.API
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("v{version:apiVersion}/{id}")]
+        [ApiVersion("1.0")]
         public async Task<IActionResult> DeleteTodo(int id)
         {
             try
