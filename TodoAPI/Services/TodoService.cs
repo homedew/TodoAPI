@@ -42,7 +42,7 @@ namespace TodoAPI.Services
         public IQueryable<TodoDto> GetAllTodos()
         {
             var todos =  _repository.GetAllAsync();
-            return _mapper.Map<IQueryable<TodoDto>>(todos);
+            return _mapper.ProjectTo<TodoDto>(todos);
 
         }
 

@@ -1,4 +1,5 @@
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoAPI.Dtos;
@@ -29,7 +30,7 @@ namespace TodoAPI.API
         }
 
 
-        [HttpGet("v{version:apiVersion}")]
+        [HttpGet("v{version:apiVersion}/gettodos")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ApiVersion("1.0")]
@@ -42,14 +43,13 @@ namespace TodoAPI.API
             var todos =  _todoService.GetAllTodos();
             var totalCount = await todos.CountAsync();
 
-            var paginatedTodos = todos.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync(); 
-            var data = _mapper.Map<List<TodoDto>>(paginatedTodos);
+            var paginatedTodos =  todos.Skip((page - 1) * pageSize).Take(pageSize);
 
             var response = new PagedResponse<TodoDto> {
                 Page = page,
                 PageSize = pageSize,
                 TotalCount = totalCount,
-                Data = data
+                Data = paginatedTodos
             };
 
             return Ok(response);
