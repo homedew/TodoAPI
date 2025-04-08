@@ -32,3 +32,11 @@ cac dung ProducesResponseType
    ##  .Where(o => o.Status == "Pending")
    ##  .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
    ##  .ToList();
+
+
+   ## ToPagedResponseAsync => helper cho Paging
+   ## dùng CancellationToken để dừng, 
+   ## Là một tín hiệu (signal) được gửi đi cho async code hoặc long-running operation biết rằng:
+   ## 👉 "Tao muốn mày dừng công việc lại càng sớm càng tốt."
+
+#### Nó không ép thread dừng lại ngay lập tức như Thread.Abort() (vốn đã bị deprecated vì nguy hiểm).
