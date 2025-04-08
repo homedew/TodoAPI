@@ -29,10 +29,12 @@ namespace TodoAPI.API
         }
 
 
-        [HttpGet]
+        [HttpGet("v{version:apiVersion}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ApiVersion("1.0")]
+
+// Return Type Không Đúng: Các return type như Task<Action<Result<IEnumberable<TodoDTo>>>> có vẻ không đúng chuẩn ASP.NET Core, có thể gây lỗi khi Swagger cố gắng sinh tài liệu.
         public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
 
@@ -53,9 +55,8 @@ namespace TodoAPI.API
             return Ok(response);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("v{version:apiVersion}/getTodo/{id}")]
         [ApiVersion("1.0")]
-        [Route("v{version: apiVersion}")]
         public async Task<ActionResult<TodoDto>> GetTodo(int id)
         {
             var todo = await _todoService.GetTodoByIdAsync(id);

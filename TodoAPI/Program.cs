@@ -42,14 +42,14 @@ builder.Services.AddApiVersioning(options => {
         new HeaderApiVersionReader("X-Api-Version"),
         new QueryStringApiVersionReader("api-version")
     );
-});
-
 // integrate with Swagger
-builder.Services.AddVersionedApiExplorer(options =>
+
+}).AddVersionedApiExplorer(options =>
 {
     options.GroupNameFormat = "'v'VVV";
     options.SubstituteApiVersionInUrl = true;
 });
+
 
 
 // Todo: think about if we have a lot of services, need to automicaly register
@@ -62,9 +62,9 @@ if (app.Environment.IsDevelopment())
     var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
     
     app.UseSwagger();
-    app.UseSwaggerUI(c=> {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Todo API V1");
-    });
+    // app.UseSwaggerUI(c=> {
+    //     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Todo API V1");
+    // });
     app.UseSwaggerUI(options =>
     {
         // Tạo một Swagger endpoint cho mỗi phiên bản API
