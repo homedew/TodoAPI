@@ -16,9 +16,19 @@ Todo API
     ## API versioning
     dotnet add package Microsoft.AspNetCore.Mvc.Versioning
 
-    Integrate with Swagger
+    ##Integrate with Swagger
     dotnet add package Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer 
     
 # To do enhancement
 How to run load test
 cac dung ProducesResponseType
+
+
+# Learning
+ ## ProjectTo và Mapper: projecTo dùng cho iqueryable, và nó tìm những field cần map trong bộ config của automapper
+ ## còn map thì sẽ map trên dữ liệu đã tải về bộ nhớ
+
+## var ordersDto = dbContext.Orders
+   ##  .Where(o => o.Status == "Pending")
+   ##  .ProjectTo<OrderDto>(_mapper.ConfigurationProvider)
+   ##  .ToList();
