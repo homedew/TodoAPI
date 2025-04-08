@@ -35,22 +35,17 @@ namespace TodoAPI.API
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ApiVersion("1.0")]
 
-// Return Type Không Đúng: Các return type như Task<Action<Result<IEnumberable<TodoDTo>>>> có vẻ không đúng chuẩn ASP.NET Core, có thể gây lỗi khi Swagger cố gắng sinh tài liệu.
-        public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        // Return Type Không Đúng: Các return type như Task<Action<Result<IEnumberable<TodoDTo>>>> có vẻ không đúng chuẩn ASP.NET Core, có thể gây lỗi khi Swagger cố gắng sinh tài liệu.
+        public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos( CancellationToken cancellationToken = default, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
 
+            if (page <= 0) page = 1;
+            if (pageSize <= 0 || pageSize > 100) pageSize = 10;
+
             // todo handle paging in service
-            var todos =  _todoService.GetAllTodos();
-            var totalCount = await todos.CountAsync();
+            var todos = _todoService.GetAllTodos();
 
-            var paginatedTodos =  todos.Skip((page - 1) * pageSize).Take(pageSize);
-
-            var response = new PagedResponse<TodoDto> {
-                Page = page,
-                PageSize = pageSize,
-                TotalCount = totalCount,
-                Data = paginatedTodos
-            };
+            var response = await todos.ToPagedResponseAsync(page, pageSize, cancellationToken);
 
             return Ok(response);
         }
@@ -73,10 +68,13 @@ namespace TodoAPI.API
         [ApiVersion("1.0")]
         public async Task<ActionResult<TodoDto>> PostTodo(TodoDto todo)
         {
-            try {
-                 await _todoService.AddTodoAsync(todo);
-            } catch(Exception ex) {
-                return StatusCode(500,  "Internal Server Error");
+            try
+            {
+                await _todoService.AddTodoAsync(todo);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal Server Error");
             }
             return CreatedAtAction(nameof(GetTodo), new { id = todo.Id }, todo);
         }
@@ -116,11 +114,11 @@ namespace TodoAPI.API
                 await _todoService.DeleteToDoAsync(id);
                 return NoContent();
             }
-            catch(KeyNotFoundException ex)
+            catch (KeyNotFoundException ex)
             {
-                return NotFound(new {message = ex.Message});
-            }      
-            catch(Exception ex)
+                return NotFound(new { message = ex.Message });
+            }
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Error deleting todo item with id {id}", id);
                 return StatusCode(500, "Internal Server Error");

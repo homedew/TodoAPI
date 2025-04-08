@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TodoAPI.Dtos;
 using TodoAPI.Entity;
@@ -41,8 +42,10 @@ namespace TodoAPI.Services
 
         public IQueryable<TodoDto> GetAllTodos()
         {
-            var todos =  _repository.GetAllAsync();
-            return _mapper.ProjectTo<TodoDto>(todos);
+            var todos =  _repository.GetAll();
+            var projected = _mapper.ProjectTo<TodoDto>(todos);
+
+            return projected;
 
         }
 
