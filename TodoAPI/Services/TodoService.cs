@@ -44,7 +44,7 @@ namespace TodoAPI.Services
         {
             var todos =  _repository.GetAll();
             var projected = _mapper.ProjectTo<TodoDto>(todos);
-
+            _logger.LogInformation("Fetching all todo items from database.");
             return projected;
 
         }

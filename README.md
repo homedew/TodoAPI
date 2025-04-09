@@ -18,7 +18,9 @@ Todo API
 
     ##Integrate with Swagger
     dotnet add package Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer 
-    
+    ## Support sorting
+    dotnet add package System.Linq.Dynamic.Core
+
 # To do enhancement
 How to run load test
 cac dung ProducesResponseType

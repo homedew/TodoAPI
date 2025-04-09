@@ -36,16 +36,26 @@ namespace TodoAPI.API
         [ApiVersion("1.0")]
 
         // Return Type Không Đúng: Các return type như Task<Action<Result<IEnumberable<TodoDTo>>>> có vẻ không đúng chuẩn ASP.NET Core, có thể gây lỗi khi Swagger cố gắng sinh tài liệu.
-        public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos( CancellationToken cancellationToken = default, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos([FromQuery] TodoQueryParameters queryParams, CancellationToken cancellationToken = default)
         {
 
-            if (page <= 0) page = 1;
-            if (pageSize <= 0 || pageSize > 100) pageSize = 10;
 
             // todo handle paging in service
-            var todos = _todoService.GetAllTodos();
+            var query = _todoService.GetAllTodos();
+            var allowedSortFields = new[] { "title", "createdDate", "status" };
 
-            var response = await todos.ToPagedResponseAsync(page, pageSize, cancellationToken);
+            // Filtering
+            if (!string.IsNullOrEmpty(queryParams.Title))
+            {
+                query = query.Where(t => t.Title.Contains(queryParams.Title));
+            }
+
+            var response = await query.ToPagedResponseAsync(queryParams.Page,
+                                                queryParams.PageSize,
+                                                queryParams.SortBy,
+                                                queryParams.SortOrder,
+                                                allowedSortFields, cancellationToken);
+            _logger.LogInformation("Getting todos - Page: {Page}, PageSize: {PageSize}", queryParams.Page, queryParams.PageSize);
 
             return Ok(response);
         }
@@ -60,6 +70,8 @@ namespace TodoAPI.API
             {
                 return NotFound();
             }
+
+            _logger.LogInformation("Get todo by id: {Id}", todo.Id);
 
             return Ok(_mapper.Map<TodoDto>(todo));
         }
@@ -76,6 +88,9 @@ namespace TodoAPI.API
             {
                 return StatusCode(500, "Internal Server Error");
             }
+
+            _logger.LogInformation("Post todo by id: {Id}", todo.Id);
+
             return CreatedAtAction(nameof(GetTodo), new { id = todo.Id }, todo);
         }
 
@@ -101,6 +116,7 @@ namespace TodoAPI.API
 
                 throw;
             }
+            _logger.LogInformation("Put todo by id: {Id}", todo.Id);
 
             return NoContent();
         }
@@ -112,6 +128,8 @@ namespace TodoAPI.API
             try
             {
                 await _todoService.DeleteToDoAsync(id);
+                _logger.LogInformation("Delete todo by id: {Id}", id);
+
                 return NoContent();
             }
             catch (KeyNotFoundException ex)
