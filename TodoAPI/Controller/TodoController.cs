@@ -50,6 +50,10 @@ namespace TodoAPI.API
                 query = query.Where(t => t.Title.Contains(queryParams.Title));
             }
 
+            if(!string.IsNullOrEmpty(queryParams.Searching)) {
+                query = query.WhereContains(queryParams.Searching, "Title", "Description", "CreatedBy");
+            }
+
             var response = await query.ToPagedResponseAsync(queryParams.Page,
                                                 queryParams.PageSize,
                                                 queryParams.SortBy,

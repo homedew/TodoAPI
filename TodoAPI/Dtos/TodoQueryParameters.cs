@@ -16,5 +16,7 @@ namespace TodoAPI.Dtos
         // Filter fields
         public string? Title { get; set; }
         public string? Status { get; set; }
+        public string? Searching { get; set; }
+
     }
 }
