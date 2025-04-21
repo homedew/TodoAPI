@@ -1,0 +1,13 @@
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/bin/Debug/net8.0/TodoApp.Infrastructure.deps.json
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/bin/Debug/net8.0/TodoApp.Infrastructure.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/bin/Debug/net8.0/TodoApp.Infrastructure.pdb
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/TodoApp.Infrastructure.csproj.AssemblyReference.cache
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/TodoApp.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/TodoApp.Infrastructure.AssemblyInfoInputs.cache
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/TodoApp.Infrastructure.AssemblyInfo.cs
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/TodoApp.Infrastructure.csproj.CoreCompileInputs.cache
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/TodoApp.Infrastructure.sourcelink.json
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/TodoApp.Infrastructure.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/refint/TodoApp.Infrastructure.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/TodoApp.Infrastructure.pdb
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/ref/TodoApp.Infrastructure.dll
