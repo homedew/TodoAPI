@@ -183,3 +183,8 @@ Gợi ý thực chiến
 
 
 ALTER FULLTEXT INDEX ON TodoItems START INCREMENTAL POPULATION;
+
+Cách | Cần virtual | Query control | Hiệu suất | Khuyên dùng
+Lazy Loading | ✅ Có | ❌ Tự động | ❌ Có thể gây n+1 | ❌ Không nên nếu team không rành
+Eager Loading (Include) | ❌ Không | ✅ Có | ✅ Tốt | ✅ Rất nên dùng
+Explicit Loading | ❌ Không | ✅ Có | ✅ Tốt | ✅ Với các quan hệ phức tạp
