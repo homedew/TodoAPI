@@ -188,3 +188,67 @@ Cách | Cần virtual | Query control | Hiệu suất | Khuyên dùng
 Lazy Loading | ✅ Có | ❌ Tự động | ❌ Có thể gây n+1 | ❌ Không nên nếu team không rành
 Eager Loading (Include) | ❌ Không | ✅ Có | ✅ Tốt | ✅ Rất nên dùng
 Explicit Loading | ❌ Không | ✅ Có | ✅ Tốt | ✅ Với các quan hệ phức tạp
+
+
+## Cách tạo thư mục project
+mkdir TodoApp && cd TodoApp
+dotnet new sln -n TodoAPI
+
+
+dotnet new webapi -n TodoAPI
+dotnet new classlib -n TodoAPI.Infrastructure
+
+
+dotnet sln add TodoAPI/TodoAPI.csproj
+dotnet sln add TodoAPI.Infrastructure/TodoAPI.Infrastructure.csproj
+dotnet sln add TodoAPI.Domain/TodoAPI.Domain.csproj
+
+
+dotnet add TodoAPI reference TodoAPI.Infrastructure
+
+TodoApp/
+├── TodoAPI/                    # Web API
+├── TodoAPI.Infrastructure/     # Class Library
+├── TodoAPI.Domain/             # Class Library
+└── TodoAPI.sln                 # Solution file
+
+## 🎯 Senior-Level Checklist (backend .NET):
+Yếu tố	Có chưa?	Ghi chú
+✅ Clean Architecture	⬜	Layered: API → App → Domain → Infra
+✅ CQRS + MediatR	⬜	Commands & Queries tách biệt rõ
+✅ Unit Tests	⬜	Dùng xUnit + Moq test Service & Handler
+✅ Authentication	⬜	JWT + policy-based authorization
+✅ Logging	⬜	Serilog + Console/File/Seq
+✅ Swagger Docs	⬜	Mô tả rõ toàn bộ endpoint
+✅ Docker Support	⬜	Dockerfile + docker-compose.yml
+✅ EF Core Migrations	⬜	DB version control
+✅ DTOs + Validation	⬜	FluentValidation & ModelState handling
+✅ Caching (bonus)	⬜	MemoryCache cho danh sách task
+✅ CI/CD (bonus)	⬜	GitHub Actions hoặc Azure Pipeline
+
+TodoApp/
+│
+├── src/
+│   ├── TodoApp.API/           # Entry point (Controllers, Swagger, DI config)
+│   ├── TodoApp.Application/   # UseCases, DTOs, CQRS (Commands/Queries)
+│   ├── TodoApp.Domain/        # Entities, Interfaces, Enums
+│   ├── TodoApp.Infrastructure/ # EF Core, DB context, Repositories, Logging
+│
+├── tests/
+│   ├── TodoApp.UnitTests/
+│   ├── TodoApp.IntegrationTests/
+
+
+Auth Example (JWT)
+
+Muốn “nâng cấp” to-do list thì thêm:
+
+Soft delete (IsDeleted flag)
+
+✅ Paging, filtering, sorting
+
+✅ Background jobs (nhắc nhở task chưa hoàn thành)
+
+✅ Logging + exception tracking (Serilog)
+
+✅ API versioning

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Volumes/CrewDev/DotNetInterview/Todolist/TodoApp.Infrastructure/TodoApp.Infrastructure.csproj": {}
+    "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/TodoApp.Infrastructure.csproj": {}
   },
   "projects": {
-    "/Volumes/CrewDev/DotNetInterview/Todolist/TodoApp.Infrastructure/TodoApp.Infrastructure.csproj": {
+    "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/TodoApp.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Volumes/CrewDev/DotNetInterview/Todolist/TodoApp.Infrastructure/TodoApp.Infrastructure.csproj",
+        "projectUniqueName": "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/TodoApp.Infrastructure.csproj",
         "projectName": "TodoApp.Infrastructure",
-        "projectPath": "/Volumes/CrewDev/DotNetInterview/Todolist/TodoApp.Infrastructure/TodoApp.Infrastructure.csproj",
+        "projectPath": "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/TodoApp.Infrastructure.csproj",
         "packagesPath": "/Users/homedew/.nuget/packages/",
-        "outputPath": "/Volumes/CrewDev/DotNetInterview/Todolist/TodoApp.Infrastructure/obj/",
+        "outputPath": "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/homedew/.nuget/NuGet/NuGet.Config"
@@ -43,6 +43,12 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[9.0.4, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
