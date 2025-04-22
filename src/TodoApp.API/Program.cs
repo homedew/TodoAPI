@@ -5,10 +5,13 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using TodoAPI.Database;
-using TodoAPI.Repository;
-using TodoAPI.Services;
-using TodoAPI.Validator;
+using TodoApp.Infrastructure.Database;
+using TodoApp.Infrastructure.Repositories;
+using TodoApp.Infrastructure.Repositories.Interface;
+using TodoApp.Application.Mapping;
+using TodoApp.Application.Services;
+using TodoApp.Application.Interfaces;
+using TodoApp.Application.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,10 +28,12 @@ builder.Services.AddSwaggerGen(c=> {
         Contact = new OpenApiContact {Name = "DrCray", Email ="crayer@gmail.com"}
     });
 });
-builder.Services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+// builder.Services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+builder.Services.AddDbContext<TodoDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")));
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 builder.Services.AddValidatorsFromAssemblyContaining<TodoValidator>();
-builder.Services.AddAutoMapper(typeof(Program));
+// builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(typeof(TodoMappingProfile).Assembly);
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<ITodoService, TodoService>();
 builder.Services.AddApiVersioning(options => {
@@ -62,9 +67,6 @@ if (app.Environment.IsDevelopment())
     var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
     
     app.UseSwagger();
-    // app.UseSwaggerUI(c=> {
-    //     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Todo API V1");
-    // });
     app.UseSwaggerUI(options =>
     {
         // Tạo một Swagger endpoint cho mỗi phiên bản API

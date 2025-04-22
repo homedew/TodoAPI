@@ -19,7 +19,6 @@
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/bin/Debug/net8.0/Microsoft.EntityFrameworkCore.Relational.dll
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/bin/Debug/net8.0/Microsoft.Extensions.Caching.Abstractions.dll
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/bin/Debug/net8.0/Microsoft.Extensions.Caching.Memory.dll
-/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/bin/Debug/net8.0/Microsoft.Extensions.Configuration.Abstractions.dll
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.dll
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/bin/Debug/net8.0/Microsoft.Extensions.Logging.dll
@@ -58,3 +57,5 @@
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/obj/Debug/net8.0/TodoApp.API.pdb
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/obj/Debug/net8.0/TodoApp.API.genruntimeconfig.cache
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/obj/Debug/net8.0/ref/TodoApp.API.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/bin/Debug/net8.0/TodoApp.Application.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/bin/Debug/net8.0/TodoApp.Application.pdb

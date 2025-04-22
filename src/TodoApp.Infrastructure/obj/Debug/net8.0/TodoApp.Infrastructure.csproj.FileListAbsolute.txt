@@ -11,3 +11,5 @@
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/refint/TodoApp.Infrastructure.dll
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/TodoApp.Infrastructure.pdb
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/ref/TodoApp.Infrastructure.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/bin/Debug/net8.0/TodoApp.Infrastructure.runtimeconfig.json
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/obj/Debug/net8.0/TodoApp.Infrastructure.genruntimeconfig.cache

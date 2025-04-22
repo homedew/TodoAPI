@@ -204,7 +204,7 @@ dotnet sln add TodoAPI.Infrastructure/TodoAPI.Infrastructure.csproj
 dotnet sln add TodoAPI.Domain/TodoAPI.Domain.csproj
 
 
-dotnet add TodoAPI reference TodoAPI.Infrastructure
+dotnet add TodoApp.API reference TodoApp.Infrastructure
 
 TodoApp/
 ├── TodoAPI/                    # Web API
@@ -252,3 +252,52 @@ Soft delete (IsDeleted flag)
 ✅ Logging + exception tracking (Serilog)
 
 ✅ API versioning
+
+
+
+## Data migration 
+dotnet tool install --global dotnet-ef
+
+dotnet add TodoApp.Infrastructure  package Microsoft.EntityFrameworkCore.Design --version 8.0.0
+dotnet add  package Microsoft.EntityFrameworkCore.Design --version 8.0.0
+
+cd  src/TodoApp.Infrastructure
+dotnet ef migrations add InitDb
+dotnet ef database update
+
+
+
+## DI 
+AddScoped: 1 instance cho mỗi http request: Repository, Unit of work, Db context, User Context
+AddSingleton: 1 instance duy nhất trong app: Config, Logger, Cache shared
+AddTransient: Instance cho mỗi lần inject( resolved): Service stateless( send email)
+
+How DI works?
+.NET dùng built-in IOC ( Inversion of control) container
+1. Khi run project ( dotnet run), app đọc Program.cs
+
+2. Gặp builder.Services.AddScoped<ITodoRepository, TodoRepository>(); nó lưu vào container
+3. Khi gọi 1 controller, nó thấy controller cần ITodoRepository
+4. Container resolve -> tạo instance của TodoRepository -> inject vào controller
+
+->Nếu k dùng DI thì k dùng dc AOP( Logging, Caching, Validation middleware)
+-DI cho phép dùng: 
+    + Middleware
+    + Decorator
+    + Interceptor(AOP)
+- Không quản lý vòng đời: phải tự manage dispose, leak memory
+-- DEEP WORK OF DI
+DI Container là 1 object kiểu IServiceProvider 
+ + Chứa 1 dictionary kiểu Type( interface) -> Func<IserviceProvider, object>(factory)
+ quản lý cách khởi tạo, lifecycle và các dependency con
+
+AddScoped: 
+    + Request 1: Controller inject TodoService (Instance A)
+                 Logger inject TodoService (Instance A) -> cùng bản
+    + Request 2: Todo service Instance B
+
+AddTransient:
+    + Request 1: Controller inject TodoService (Instance A)
+                 Logger inject TodoService(Instance B) -> khác bản
+    + Request 2: Todo service Instance C
+

@@ -2,13 +2,11 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TodoAPI.Dtos;
-using TodoAPI.Entity;
+using TodoApp.Application.Dto;
 using TodoAPI.Helper;
-using TodoAPI.Repository;
-using TodoAPI.Services;
+using TodoApp.Application.Interfaces;
 
-namespace TodoAPI.API
+namespace TodoApp.API.Controller
 {
 
     [ApiController]
@@ -17,16 +15,17 @@ namespace TodoAPI.API
     [Route("api/[controller]")]
     public class TodoController : BaseController
     {
-        private readonly ITodoRepository _repository;
+        // private readonly TodoDbContext _todoDbContext;
         private readonly ITodoService _todoService;
         private readonly ILogger<TodoController> _logger;
         private readonly IMapper _mapper;
-        public TodoController(ITodoRepository repository, ILogger<TodoController> logger, IMapper mapper, ITodoService todoService)
+        public TodoController(ILogger<TodoController> logger, IMapper mapper, ITodoService todoService)
         {
-            _repository = repository;
             _logger = logger;
             _mapper = mapper;
             _todoService = todoService;
+            //  Console.Write($"Controller receivew TodoDb context: {_todoDbContext.InstanceId}");
+
         }
 
 
@@ -113,7 +112,7 @@ namespace TodoAPI.API
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await _repository.ExistsAsync(todo.Id))
+                if (!await _todoService.ExistsAsync(todo.Id))
                 {
                     return NotFound();
                 }
