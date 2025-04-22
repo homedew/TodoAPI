@@ -1,6 +1,10 @@
 # Project Name
 Todo API
 # Library
+
+    ## SQL
+    dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+    
     ## Validate DTOs
     dotnet add package FluentValidation.AspNetCore
 

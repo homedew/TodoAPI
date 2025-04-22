@@ -28,8 +28,8 @@ builder.Services.AddSwaggerGen(c=> {
         Contact = new OpenApiContact {Name = "DrCray", Email ="crayer@gmail.com"}
     });
 });
-// builder.Services.AddDbContext<TodoContext>(opt => opt.UseInMemoryDatabase("TodoList"));
-builder.Services.AddDbContext<TodoDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")));
+builder.Services.AddDbContext<TodoDbContext>(opt => opt.UseInMemoryDatabase("TodoList"));
+// builder.Services.AddDbContext<TodoDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")));
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 builder.Services.AddValidatorsFromAssemblyContaining<TodoValidator>();
 // builder.Services.AddAutoMapper(typeof(Program));
