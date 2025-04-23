@@ -18,6 +18,7 @@
           "Swashbuckle.AspNetCore": "6.4.0",
           "System.Linq.Dynamic.Core": "1.6.0.2",
           "TodoApp.Application": "1.0.0",
+          "TodoApp.Infrastructure": "1.0.0",
           "TodoApp.Infrastructure1": "1.0.0"
         },
         "runtime": {

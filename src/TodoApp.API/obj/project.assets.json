@@ -3551,8 +3551,8 @@
     },
     "TodoApp.Infrastructure/1.0.0": {
       "type": "project",
-      "path": "../../TodoApp.Infrastructure/TodoApp.Infrastructure.csproj",
-      "msbuildProject": "../../TodoApp.Infrastructure/TodoApp.Infrastructure.csproj"
+      "path": "../TodoApp.Infrastructure/TodoApp.Infrastructure.csproj",
+      "msbuildProject": "../TodoApp.Infrastructure/TodoApp.Infrastructure.csproj"
     },
     "TodoApp.Infrastructure1/1.0.0": {
       "type": "project",
@@ -3572,6 +3572,7 @@
       "Swashbuckle.AspNetCore >= 6.4.0",
       "System.Linq.Dynamic.Core >= 1.6.0.2",
       "TodoApp.Application >= 1.0.0",
+      "TodoApp.Infrastructure >= 1.0.0",
       "TodoApp.Infrastructure1 >= 1.0.0"
     ]
   },
@@ -3603,6 +3604,9 @@
           "projectReferences": {
             "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Application/TodoApp.Application.csproj": {
               "projectPath": "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Application/TodoApp.Application.csproj"
+            },
+            "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/TodoApp.Infrastructure.csproj": {
+              "projectPath": "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure/TodoApp.Infrastructure.csproj"
             },
             "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure1/TodoApp.Infrastructure1.csproj": {
               "projectPath": "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure1/TodoApp.Infrastructure1.csproj"
@@ -3701,5 +3705,13 @@
         "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.100/PortableRuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json."
+    }
+  ]
 }
