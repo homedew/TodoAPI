@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\TodoApp.Infrastructure\TodoApp.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\TodoApp.Infrastructure\TodoApp.Infrastructure.csproj" />
+    <ProjectReference Include="..\TodoApp.Infrastructure1\TodoApp.Infrastructure1.csproj" />
   </ItemGroup>
 
   <ItemGroup>

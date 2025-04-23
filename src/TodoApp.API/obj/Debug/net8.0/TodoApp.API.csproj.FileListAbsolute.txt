@@ -140,3 +140,6 @@
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/obj/Debug/net8.0/TodoApp.API.genruntimeconfig.cache
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/obj/Debug/net8.0/ref/TodoApp.API.dll
 /Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/bin/Debug/net8.0/Microsoft.Extensions.Configuration.Binder.dll
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/bin/Debug/net8.0/TodoApp.API.staticwebassets.endpoints.json
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/obj/Debug/net8.0/staticwebassets.build.endpoints.json
+/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/obj/Debug/net8.0/staticwebassets/msbuild.TodoApp.API.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
