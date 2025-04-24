@@ -134,9 +134,39 @@ dotnet add TodoApp.API reference TodoApp.Infrastructure
 TodoApp/ ├── TodoAPI/ # Web API ├── TodoAPI.Infrastructure/ # Class Library ├── TodoAPI.Domain/ # Class Library └── TodoAPI.sln # Solution file
 
 🎯 Senior-Level Checklist (backend .NET):
-Yếu tố Có chưa? Ghi chú ✅ Clean Architecture ⬜ Layered: API → App → Domain → Infra ✅ CQRS + MediatR ⬜ Commands & Queries tách biệt rõ ✅ Unit Tests ⬜ Dùng xUnit + Moq test Service & Handler ✅ Authentication ⬜ JWT + policy-based authorization ✅ Logging ⬜ Serilog + Console/File/Seq ✅ Swagger Docs ⬜ Mô tả rõ toàn bộ endpoint ✅ Docker Support ⬜ Dockerfile + docker-compose.yml ✅ EF Core Migrations ⬜ DB version control ✅ DTOs + Validation ⬜ FluentValidation & ModelState handling ✅ Caching (bonus) ⬜ MemoryCache cho danh sách task ✅ CI/CD (bonus) ⬜ GitHub Actions hoặc Azure Pipeline
+Yếu tố Có chưa? Ghi chú
+✅ Clean Architecture
+⬜ Layered: API → App → Domain → Infra 
+✅ CQRS + MediatR 
+⬜ Commands & Queries tách biệt rõ
+✅ Unit Tests 
+⬜ Dùng xUnit + Moq test Service & Handler 
+✅ Authentication 
+⬜ JWT + policy-based authorization
+✅ Logging
+⬜ Serilog + Console/File/Seq 
+✅ Swagger Docs 
+⬜ Mô tả rõ toàn bộ endpoint
+✅ Docker Support 
+⬜ Dockerfile + docker-compose.yml 
+✅ EF Core Migrations
+⬜ DB version control
+✅ DTOs + Validation 
+⬜ FluentValidation & ModelState handling 
+✅ Caching (bonus) 
+⬜ MemoryCache cho danh sách task
+✅ CI/CD (bonus) 
+⬜ GitHub Actions hoặc Azure Pipeline
 
-TodoApp/ │ ├── src/ │ ├── TodoApp.API/ # Entry point (Controllers, Swagger, DI config) │ ├── TodoApp.Application/ # UseCases, DTOs, CQRS (Commands/Queries) │ ├── TodoApp.Domain/ # Entities, Interfaces, Enums │ ├── TodoApp.Infrastructure/ # EF Core, DB context, Repositories, Logging │ ├── tests/ │ ├── TodoApp.UnitTests/ │ ├── TodoApp.IntegrationTests/
+TodoApp/ │ ├── src/ │ 
+├── TodoApp.API/ # Entry point (Controllers, Swagger, DI config) │
+├── TodoApp.Application/ # UseCases, DTOs, CQRS (Commands/Queries) │ 
+├── TodoApp.Domain/ # Entities, Interfaces, Enums │ 
+├── TodoApp.Infrastructure/ # EF Core, DB context, Repositories, Logging │ 
+├── tests/ 
+    │
+    ├── TodoApp.UnitTests/ │ 
+    ├── TodoApp.IntegrationTests/
 
 Auth Example (JWT)
 
@@ -196,3 +226,53 @@ attrib -r README.md
 
 Linux/Mac
 chmod u+w README.md
+
+## POSTGRES
+check db:  psql -U postgres -W -l
+psql postgres 
+
+## CQRS and MediatR
+dotnet add package MediatR
+dotnet add package MediatR.Extensions.Microsoft.DependencyInjection
+
+🔍 CQRS là gì?
+CQRS = Command Query Responsibility Segregation
+
+Command: thao tác gây thay đổi dữ liệu (Create, Update, Delete)
+
+Query: thao tác chỉ đọc dữ liệu (GetAll, GetById...)
+
+💡 Tách biệt hoàn toàn "đọc" và "ghi" để:
+
+Dễ scale (chia hai hướng)
+
+Dễ test
+Dễ maintain
+
+🧠 Mediator pattern là gì?
+Mediator là 1 design pattern trung gian, giúp các object không gọi nhau trực tiếp, mà thông qua "người trung gian" (Mediator).
+
+→ Trong .NET, MediatR là một thư viện implement pattern này.
+
+⚙️ Cơ chế hoạt động của MediatR
+🧩 Thành phần chính:
+
+Thành phần	Mô tả
+IMediator	Interface chính để gửi Command hoặc Query
+IRequest<T>	Đại diện cho một request (Command hoặc Query), và trả về kiểu T
+IRequestHandler<TRequest, TResponse>	Xử lý logic tương ứng cho request
+ServiceCollection.AddMediatR(...)	Đăng ký các handler vào DI container
+
+## MediatR hoạt động như sau:
+Bạn gọi Send() → truyền vào CreateTodoCommand
+
+MediatR scan các class đã đăng ký từ AddMediatR(...) và tìm handler phù hợp:
+
+CreateTodoHandler implements IRequestHandler<CreateTodoCommand, int>
+
+MediatR gọi phương thức Handle() trong handler đó
+
+Handler thực thi logic, trả kết quả về lại cho Send()
+
+
+// Phải tìm chuẩn format code, sau này làm nhiều member, trước khi commit code phải , thì sau này lúc đọc code đỡ nhằn

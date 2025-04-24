@@ -1,10 +1,13 @@
+using System.Reflection;
 using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using TodoApp.Application.Features.Todos.Commands.CreateTodo;
 using TodoApp.Infrastructure.Database;
 using TodoApp.Infrastructure.Repositories;
 using TodoApp.Infrastructure.Repositories.Interface;
@@ -41,6 +44,8 @@ builder.Services.AddValidatorsFromAssemblyContaining<TodoValidator>();
 builder.Services.AddAutoMapper(typeof(TodoMappingProfile).Assembly);
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<ITodoService, TodoService>();
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+
 builder.Services.AddApiVersioning(options => {
 
     options.ReportApiVersions = true;
@@ -60,7 +65,8 @@ builder.Services.AddApiVersioning(options => {
     options.SubstituteApiVersionInUrl = true;
 });
 
-
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(CreateTodoCommandHandler).Assembly));
 
 // Todo: think about if we have a lot of services, need to automicaly register
 

@@ -23,3 +23,4 @@ namespace TodoApp.Infrastructure.Database
         public DbSet<TodoItem> TodoItems => Set<TodoItem>();
     }
 }
+

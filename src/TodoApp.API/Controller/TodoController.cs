@@ -1,46 +1,37 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Application.Dto;
 using TodoAPI.Helper;
+using TodoApp.Application.Features.Todos.Commands.CreateTodo;
+using TodoApp.Application.Features.Todos.Queries;
+using TodoApp.Application.Features.Todos.Queries.GetTodoById;
 using TodoApp.Application.Interfaces;
 
 namespace TodoApp.API.Controller
 {
-
     [ApiController]
     //  [ApiVersion("1.0")]
     // [Route("api/v{version: apiVersion}/[controller]")]
     [Route("api/[controller]")]
-    public class TodoController : BaseController
+    public class TodoController(
+        ILogger<TodoController> logger,
+        IMediator mediator
+    ) : BaseController
     {
-        // private readonly TodoDbContext _todoDbContext;
-        private readonly ITodoService _todoService;
-        private readonly ILogger<TodoController> _logger;
-        private readonly IMapper _mapper;
-        public TodoController(ILogger<TodoController> logger, IMapper mapper, ITodoService todoService)
-        {
-            _logger = logger;
-            _mapper = mapper;
-            _todoService = todoService;
-            //  Console.Write($"Controller receivew TodoDb context: {_todoDbContext.InstanceId}");
-
-        }
-
-
         [HttpGet("v{version:apiVersion}/gettodos")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ApiVersion("1.0")]
 
         // Return Type Không Đúng: Các return type như Task<Action<Result<IEnumberable<TodoDTo>>>> có vẻ không đúng chuẩn ASP.NET Core, có thể gây lỗi khi Swagger cố gắng sinh tài liệu.
-        public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos([FromQuery] TodoQueryParameters queryParams, CancellationToken cancellationToken = default)
+        public async Task<ActionResult<IEnumerable<TodoDto>>> GetTodos([FromQuery] TodoQueryParameters queryParams,
+            CancellationToken cancellationToken = default)
         {
-
-
             // todo handle paging in service
-            var query = _todoService.GetAllTodos();
+            var query = todoService.GetAllTodos();
             var allowedSortFields = new[] { "title", "createdDate", "status" };
 
             // Filtering
@@ -49,16 +40,19 @@ namespace TodoApp.API.Controller
                 query = query.Where(t => t.Title.Contains(queryParams.Title));
             }
 
-            if(!string.IsNullOrEmpty(queryParams.Searching)) {
+            if (!string.IsNullOrEmpty(queryParams.Searching))
+            {
                 query = query.WhereContains(queryParams.Searching, "Title", "Description", "CreatedBy");
             }
 
             var response = await query.ToPagedResponseAsync(queryParams.Page,
-                                                queryParams.PageSize,
-                                                queryParams.SortBy,
-                                                queryParams.SortOrder,
-                                                allowedSortFields, cancellationToken);
-            _logger.LogInformation("Getting todos - Page: {Page}, PageSize: {PageSize}", queryParams.Page, queryParams.PageSize);
+                queryParams.PageSize,
+                queryParams.SortBy,
+                queryParams.SortOrder,
+                allowedSortFields, cancellationToken);
+
+            logger.LogInformation("Getting todos - Page: {Page}, PageSize: {PageSize}", queryParams.Page,
+                queryParams.PageSize);
 
             return Ok(response);
         }
@@ -67,16 +61,16 @@ namespace TodoApp.API.Controller
         [ApiVersion("1.0")]
         public async Task<ActionResult<TodoDto>> GetTodo(int id)
         {
-            var todo = await _todoService.GetTodoByIdAsync(id);
-
+            var todo = await mediator.Send(new GetTodoByIdQuery(id));
+        
             if (todo is null)
             {
                 return NotFound();
             }
-
-            _logger.LogInformation("Get todo by id: {Id}", todo.Id);
-
-            return Ok(_mapper.Map<TodoDto>(todo));
+        
+            logger.LogInformation("Get todo by id: {Id}", id);
+        
+            return Ok(todo);
         }
 
         [HttpPost("v{version:apiVersion}/postTodo")]
@@ -85,14 +79,14 @@ namespace TodoApp.API.Controller
         {
             try
             {
-                await _todoService.AddTodoAsync(todo);
+                await mediator.Send( new CreateTodoCommand(todo));
             }
             catch (Exception ex)
             {
                 return StatusCode(500, "Internal Server Error");
             }
 
-            _logger.LogInformation("Post todo by id: {Id}", todo.Id);
+            logger.LogInformation("Post todo by id: {Id}", todo.Id);
 
             return CreatedAtAction(nameof(GetTodo), new { id = todo.Id }, todo);
         }
@@ -119,6 +113,7 @@ namespace TodoApp.API.Controller
 
                 throw;
             }
+
             _logger.LogInformation("Put todo by id: {Id}", todo.Id);
 
             return NoContent();

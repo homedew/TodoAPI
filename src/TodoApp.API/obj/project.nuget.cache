@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "czaU2iATVAg=",
-  "success": true,
+  "dgSpecHash": "E+iNAaySDow=",
+  "success": false,
   "projectFilePath": "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/TodoApp.API.csproj",
   "expectedPackageFiles": [
     "/Users/homedew/.nuget/packages/automapper/12.0.1/automapper.12.0.1.nupkg.sha512",
@@ -10,6 +10,9 @@
     "/Users/homedew/.nuget/packages/fluentvalidation.aspnetcore/11.3.0/fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
     "/Users/homedew/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.5.1/fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
     "/Users/homedew/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
+    "/Users/homedew/.nuget/packages/mediatr/12.5.0/mediatr.12.5.0.nupkg.sha512",
+    "/Users/homedew/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
+    "/Users/homedew/.nuget/packages/mediatr.extensions.microsoft.dependencyinjection/11.1.0/mediatr.extensions.microsoft.dependencyinjection.11.1.0.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.aspnetcore.mvc.versioning/5.1.0/microsoft.aspnetcore.mvc.versioning.5.1.0.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.aspnetcore.mvc.versioning.apiexplorer/5.1.0/microsoft.aspnetcore.mvc.versioning.apiexplorer.5.1.0.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.aspnetcore.openapi/8.0.7/microsoft.aspnetcore.openapi.8.0.7.nupkg.sha512",
@@ -31,12 +34,11 @@
     "/Users/homedew/.nuget/packages/microsoft.extensions.caching.memory/9.0.4/microsoft.extensions.caching.memory.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.extensions.configuration/9.0.4/microsoft.extensions.configuration.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.extensions.configuration.abstractions/9.0.4/microsoft.extensions.configuration.abstractions.9.0.4.nupkg.sha512",
-    "/Users/homedew/.nuget/packages/microsoft.extensions.configuration.binder/9.0.4/microsoft.extensions.configuration.binder.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.extensions.configuration.fileextensions/9.0.4/microsoft.extensions.configuration.fileextensions.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.extensions.configuration.json/9.0.4/microsoft.extensions.configuration.json.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.extensions.dependencyinjection/9.0.4/microsoft.extensions.dependencyinjection.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/9.0.4/microsoft.extensions.dependencyinjection.abstractions.9.0.4.nupkg.sha512",
-    "/Users/homedew/.nuget/packages/microsoft.extensions.dependencymodel/8.0.2/microsoft.extensions.dependencymodel.8.0.2.nupkg.sha512",
+    "/Users/homedew/.nuget/packages/microsoft.extensions.dependencymodel/8.0.0/microsoft.extensions.dependencymodel.8.0.0.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.extensions.fileproviders.abstractions/9.0.4/microsoft.extensions.fileproviders.abstractions.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.extensions.fileproviders.physical/9.0.4/microsoft.extensions.fileproviders.physical.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.extensions.filesystemglobbing/9.0.4/microsoft.extensions.filesystemglobbing.9.0.4.nupkg.sha512",
@@ -75,10 +77,23 @@
   ],
   "logs": [
     {
-      "code": "NU1900",
+      "code": "NU1608",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Error occurred while getting package vulnerability data: Unable to load the service index for source https://api.nuget.org/v3/index.json."
+      "message": "Detected package version outside of dependency constraint: MediatR.Extensions.Microsoft.DependencyInjection 11.1.0 requires MediatR (>= 11.0.0 && < 12.0.0) but version MediatR 12.5.0 was resolved.",
+      "libraryId": "MediatR",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1104",
+      "level": "Error",
+      "message": "Unable to find project '/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure1/TodoApp.Infrastructure1.csproj'. Check that the project reference is valid and that the project file exists.",
+      "libraryId": "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Infrastructure1/TodoApp.Infrastructure1.csproj",
+      "targetGraphs": [
+        "net8.0"
+      ]
     }
   ]
 }
