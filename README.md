@@ -276,3 +276,40 @@ Handler thực thi logic, trả kết quả về lại cho Send()
 
 
 // Phải tìm chuẩn format code, sau này làm nhiều member, trước khi commit code phải , thì sau này lúc đọc code đỡ nhằn
+
+
+## Record
+✅ Ví dụ record đơn giản:
+csharp
+Sao chép
+Chỉnh sửa
+public record TodoDto(int Id, string Title, bool IsCompleted);
+Nó tương đương với:
+
+csharp
+Sao chép
+Chỉnh sửa
+public class TodoDto
+{
+    public int Id { get; init; }
+    public string Title { get; init; }
+    public bool IsCompleted { get; init; }
+
+    public TodoDto(int id, string title, bool isCompleted)
+    {
+        Id = id;
+        Title = title;
+        IsCompleted = isCompleted;
+    }
+
+    public override bool Equals(object? obj) => ...
+    public override int GetHashCode() => ...
+}
+
+
+## mai làm 
+1. Khái niệm về Unit of Work
+   Unit of Work là một thiết kế giúp quản lý tất cả các thao tác database trong một "transaction" duy nhất. Điều này giúp đảm bảo rằng tất cả các thay đổi được commit cùng nhau (hoặc rollback nếu có lỗi).
+
+Unit of Work sẽ chịu trách nhiệm quản lý các repository, giúp bạn thực hiện các thao tác trên nhiều entity mà không cần gọi SaveChanges nhiều lần.
+

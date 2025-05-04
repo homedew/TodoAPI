@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "fEUKmCDVXRk=",
+  "dgSpecHash": "jWuLTDrr+SY=",
   "success": true,
   "projectFilePath": "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.Application/TodoApp.Application.csproj",
   "expectedPackageFiles": [
@@ -36,6 +36,7 @@
     "/Users/homedew/.nuget/packages/npgsql.entityframeworkcore.postgresql/9.0.4/npgsql.entityframeworkcore.postgresql.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/system.diagnostics.diagnosticsource/9.0.4/system.diagnostics.diagnosticsource.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/system.io.pipelines/9.0.4/system.io.pipelines.9.0.4.nupkg.sha512",
+    "/Users/homedew/.nuget/packages/system.linq.dynamic.core/1.6.2/system.linq.dynamic.core.1.6.2.nupkg.sha512",
     "/Users/homedew/.nuget/packages/system.text.encodings.web/9.0.4/system.text.encodings.web.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/system.text.json/9.0.4/system.text.json.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/microsoft.netcore.app.ref/8.0.11/microsoft.netcore.app.ref.8.0.11.nupkg.sha512",

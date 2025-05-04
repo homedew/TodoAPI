@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "h7+cfTcNnB8=",
+  "dgSpecHash": "rVsdWqqlegM=",
   "success": true,
   "projectFilePath": "/Volumes/CrewDev/DotNetInterview/Todolist/src/TodoApp.API/TodoApp.API.csproj",
   "expectedPackageFiles": [
@@ -64,7 +64,7 @@
     "/Users/homedew/.nuget/packages/system.composition.typedparts/6.0.0/system.composition.typedparts.6.0.0.nupkg.sha512",
     "/Users/homedew/.nuget/packages/system.diagnostics.diagnosticsource/9.0.4/system.diagnostics.diagnosticsource.9.0.4.nupkg.sha512",
     "/Users/homedew/.nuget/packages/system.io.pipelines/9.0.4/system.io.pipelines.9.0.4.nupkg.sha512",
-    "/Users/homedew/.nuget/packages/system.linq.dynamic.core/1.6.0.2/system.linq.dynamic.core.1.6.0.2.nupkg.sha512",
+    "/Users/homedew/.nuget/packages/system.linq.dynamic.core/1.6.2/system.linq.dynamic.core.1.6.2.nupkg.sha512",
     "/Users/homedew/.nuget/packages/system.reflection.metadata/6.0.1/system.reflection.metadata.6.0.1.nupkg.sha512",
     "/Users/homedew/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/Users/homedew/.nuget/packages/system.text.encoding.codepages/6.0.0/system.text.encoding.codepages.6.0.0.nupkg.sha512",

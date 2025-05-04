@@ -1168,7 +1168,7 @@
           "buildTransitive/net8.0/_._": {}
         }
       },
-      "System.Linq.Dynamic.Core/1.6.0.2": {
+      "System.Linq.Dynamic.Core/1.6.2": {
         "type": "package",
         "compile": {
           "lib/net8.0/System.Linq.Dynamic.Core.dll": {
@@ -1307,6 +1307,7 @@
           "FluentValidation.AspNetCore": "11.3.0",
           "MediatR": "12.5.0",
           "MediatR.Extensions.Microsoft.DependencyInjection": "11.1.0",
+          "System.Linq.Dynamic.Core": "1.6.2",
           "TodoApp.Infrastructure": "1.0.0"
         },
         "compile": {
@@ -3280,10 +3281,10 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "System.Linq.Dynamic.Core/1.6.0.2": {
-      "sha512": "rtfRierS5ZjG4xBfDKerRPImwDbav7q2hgf88jUZKfIjQb16PIQqzFCpPVWMb+7fS2ECXnPSmmBbssPz7WUg6g==",
+    "System.Linq.Dynamic.Core/1.6.2": {
+      "sha512": "piIcdelf4dGotuIjFlyu7JLIZkYTmYM0ZTLGpCcxs9iCJFflhJht0nchkIV+GS5wfA3OtC3QNjIcUqyOdBdOsA==",
       "type": "package",
-      "path": "system.linq.dynamic.core/1.6.0.2",
+      "path": "system.linq.dynamic.core/1.6.2",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -3338,7 +3339,7 @@
         "lib/uap10.0.10240/System.Linq.Dynamic.Core.pri",
         "lib/uap10.0.10240/System.Linq.Dynamic.Core.xml",
         "logo.png",
-        "system.linq.dynamic.core.1.6.0.2.nupkg.sha512",
+        "system.linq.dynamic.core.1.6.2.nupkg.sha512",
         "system.linq.dynamic.core.nuspec"
       ]
     },
@@ -3580,7 +3581,6 @@
       "Microsoft.EntityFrameworkCore.Design >= 8.0.0",
       "Microsoft.EntityFrameworkCore.InMemory >= 9.0.1",
       "Swashbuckle.AspNetCore >= 6.4.0",
-      "System.Linq.Dynamic.Core >= 1.6.0.2",
       "TodoApp.Application >= 1.0.0",
       "TodoApp.Infrastructure >= 1.0.0"
     ]
@@ -3669,10 +3669,6 @@
           "Swashbuckle.AspNetCore": {
             "target": "Package",
             "version": "[6.4.0, )"
-          },
-          "System.Linq.Dynamic.Core": {
-            "target": "Package",
-            "version": "[1.6.0.2, )"
           }
         },
         "imports": [

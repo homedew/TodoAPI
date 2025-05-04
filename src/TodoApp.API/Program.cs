@@ -44,8 +44,7 @@ builder.Services.AddValidatorsFromAssemblyContaining<TodoValidator>();
 builder.Services.AddAutoMapper(typeof(TodoMappingProfile).Assembly);
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<ITodoService, TodoService>();
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
-
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddApiVersioning(options => {
 
     options.ReportApiVersions = true;
@@ -65,8 +64,7 @@ builder.Services.AddApiVersioning(options => {
     options.SubstituteApiVersionInUrl = true;
 });
 
-builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(typeof(CreateTodoCommandHandler).Assembly));
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
 // Todo: think about if we have a lot of services, need to automicaly register
 

@@ -1,6 +1,5 @@
+using MediatR;
+
 namespace TodoApp.Application.Features.Todos.Commands.DeleteTodo;
 
-public class DeleteTodoCommand
-{
-    
-}
+public record DeleteTodoCommand(int Id): IRequest<bool>;

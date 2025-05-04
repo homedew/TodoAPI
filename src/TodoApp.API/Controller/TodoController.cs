@@ -4,11 +4,14 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TodoApp.Application.Dto;
-using TodoAPI.Helper;
 using TodoApp.Application.Features.Todos.Commands.CreateTodo;
 using TodoApp.Application.Features.Todos.Queries;
 using TodoApp.Application.Features.Todos.Queries.GetTodoById;
 using TodoApp.Application.Interfaces;
+using TodoApp.Application.Features.Todos.Commands.UpdateTodo;
+using TodoApp.Application.Features.Todos.Commands.DeleteTodo;
+using TodoApp.Application.Features.Todos.Queries.GetAllTodos;
+using TodoApp.Application.Helper;
 
 namespace TodoApp.API.Controller
 {
@@ -31,26 +34,7 @@ namespace TodoApp.API.Controller
             CancellationToken cancellationToken = default)
         {
             // todo handle paging in service
-            var query = todoService.GetAllTodos();
-            var allowedSortFields = new[] { "title", "createdDate", "status" };
-
-            // Filtering
-            if (!string.IsNullOrEmpty(queryParams.Title))
-            {
-                query = query.Where(t => t.Title.Contains(queryParams.Title));
-            }
-
-            if (!string.IsNullOrEmpty(queryParams.Searching))
-            {
-                query = query.WhereContains(queryParams.Searching, "Title", "Description", "CreatedBy");
-            }
-
-            var response = await query.ToPagedResponseAsync(queryParams.Page,
-                queryParams.PageSize,
-                queryParams.SortBy,
-                queryParams.SortOrder,
-                allowedSortFields, cancellationToken);
-
+            var response = await mediator.Send(new GetAllTodosQuery(queryParams));
             logger.LogInformation("Getting todos - Page: {Page}, PageSize: {PageSize}", queryParams.Page,
                 queryParams.PageSize);
 
@@ -62,14 +46,11 @@ namespace TodoApp.API.Controller
         public async Task<ActionResult<TodoDto>> GetTodo(int id)
         {
             var todo = await mediator.Send(new GetTodoByIdQuery(id));
-        
-            if (todo is null)
-            {
-                return NotFound();
-            }
-        
+
+            if (todo is null) return NotFound();
+
             logger.LogInformation("Get todo by id: {Id}", id);
-        
+
             return Ok(todo);
         }
 
@@ -79,7 +60,7 @@ namespace TodoApp.API.Controller
         {
             try
             {
-                await mediator.Send( new CreateTodoCommand(todo));
+                await mediator.Send(new CreateTodoCommand(todo));
             }
             catch (Exception ex)
             {
@@ -99,46 +80,22 @@ namespace TodoApp.API.Controller
             {
                 return BadRequest();
             }
+            var isUpdateSuccess = await mediator.Send(new UpdateTodoCommand(todo.Id, todo));
+            if (!isUpdateSuccess) return StatusCode(500,  "Internal Server Error");
 
-            try
-            {
-                await _todoService.UpdateTodoAsync(todo.Id, todo);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await _todoService.ExistsAsync(todo.Id))
-                {
-                    return NotFound();
-                }
+            logger.LogInformation("Put todo by id: {Id}", todo.Id);
 
-                throw;
-            }
-
-            _logger.LogInformation("Put todo by id: {Id}", todo.Id);
-
-            return NoContent();
+            return Ok();
         }
 
         [HttpDelete("v{version:apiVersion}/{id}")]
         [ApiVersion("1.0")]
         public async Task<IActionResult> DeleteTodo(int id)
         {
-            try
-            {
-                await _todoService.DeleteToDoAsync(id);
-                _logger.LogInformation("Delete todo by id: {Id}", id);
+            var isDeleteSucess = await mediator.Send(new DeleteTodoCommand(id));
+            if(!isDeleteSucess) return StatusCode(500, "Internal Server Error");;
 
-                return NoContent();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                return NotFound(new { message = ex.Message });
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error deleting todo item with id {id}", id);
-                return StatusCode(500, "Internal Server Error");
-            }
+            return Ok();
         }
     }
 }
