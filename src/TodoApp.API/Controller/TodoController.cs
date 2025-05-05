@@ -24,6 +24,14 @@ namespace TodoApp.API.Controller
         IMediator mediator
     ) : BaseController
     {
+        
+        [HttpGet("v{version:apiVersion}/ping")]
+        [ApiVersion("1.0")]
+        public IActionResult Ping()
+        {
+            return Ok("API is alive");
+        }
+        
         [HttpGet("v{version:apiVersion}/gettodos")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -49,7 +57,7 @@ namespace TodoApp.API.Controller
 
             if (todo is null) return NotFound();
 
-            logger.LogInformation("Get todo by id: {Id}", id);
+            logger.LogTrace("Get todo by id: {Id}", id);
 
             return Ok(todo);
         }
@@ -64,6 +72,7 @@ namespace TodoApp.API.Controller
             }
             catch (Exception ex)
             {
+                logger.LogError($"Error with {ex}");
                 return StatusCode(500, "Internal Server Error");
             }
 

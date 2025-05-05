@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using TodoApp.Application;
 using TodoApp.Application.Features.Todos.Commands.CreateTodo;
 using TodoApp.Infrastructure.Database;
 using TodoApp.Infrastructure.Repositories;
@@ -15,6 +16,7 @@ using TodoApp.Application.Mapping;
 using TodoApp.Application.Services;
 using TodoApp.Application.Interfaces;
 using TodoApp.Application.Validators;
+using TodoApp.Infrastructure.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,12 +41,20 @@ builder.Configuration
 builder.Services.AddDbContext<TodoDbContext>(opt => opt.UseInMemoryDatabase("TodoList"));
 // builder.Services.AddDbContext<TodoDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("Postgres")));
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddValidatorsFromAssemblyContaining<TodoValidator>();
 // builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddAutoMapper(typeof(TodoMappingProfile).Assembly);
 builder.Services.AddMemoryCache();
 builder.Services.AddScoped<ITodoService, TodoService>();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssemblies(
+        typeof(Program).Assembly,
+        typeof(ApplicationAssemblyMarker).Assembly
+        );
+});
+   
 builder.Services.AddApiVersioning(options => {
 
     options.ReportApiVersions = true;
@@ -64,8 +74,6 @@ builder.Services.AddApiVersioning(options => {
     options.SubstituteApiVersionInUrl = true;
 });
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
-
 // Todo: think about if we have a lot of services, need to automicaly register
 
 var app = builder.Build();
@@ -74,7 +82,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
-    
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI(options =>
     {

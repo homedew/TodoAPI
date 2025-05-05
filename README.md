@@ -313,3 +313,30 @@ public class TodoDto
 
 Unit of Work sẽ chịu trách nhiệm quản lý các repository, giúp bạn thực hiện các thao tác trên nhiều entity mà không cần gọi SaveChanges nhiều lần.
 
+## ✅ Repository Scattering là gì?
+Repository scattering xảy ra khi nhiều repository được gọi rải rác trong nhiều nơi khác nhau của code mà không có một lớp trung gian kiểm soát hoặc gom chúng lại thành 1 transaction duy nhất.
+
+Nói cách khác, khi mỗi repository tự gọi DbContext và SaveChanges() riêng lẻ, ta sẽ mất đi sự thống nhất trong xử lý dữ liệu và dễ gây lỗi.
+
+## 🧨 Hệ quả của repository scattering
+## ❌ Ví dụ không có Unit of Work:
+
+await _todoRepository.AddAsync(todo);
+await _userRepository.UpdateUserAsync(user);
+await _dbContext.SaveChangesAsync(); // mỗi repo tự gọi riêng
+Nếu AddAsync(todo) thành công mà UpdateUserAsync(user) thất bại → hệ thống rơi vào trạng thái không đồng bộ (inconsistent data).
+
+Khó quản lý rollback.
+
+Transaction không rõ ràng, không biết commit ở đâu là “chuẩn”.
+
+## ✅ Khi dùng Unit of Work:
+
+_unitOfWork.Todos.Add(todo);
+_unitOfWork.Users.Update(user);
+await _unitOfWork.SaveChangesAsync(); // chỉ commit 1 lần
+Tất cả hành động nằm trong cùng một transaction.
+
+Nếu lỗi xảy ra, bạn rollback dễ dàng (hoặc dùng TransactionScope).
+
+Code dễ test hơn, dễ đọc hơn.
