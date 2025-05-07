@@ -340,3 +340,162 @@ Tất cả hành động nằm trong cùng một transaction.
 Nếu lỗi xảy ra, bạn rollback dễ dàng (hoặc dùng TransactionScope).
 
 Code dễ test hơn, dễ đọc hơn.
+
+## Migration
+# 🗂️ Entity Framework Core Migration Flow
+
+This document outlines the full lifecycle of migrations in an Entity Framework Core project, from initialization to updating the database.
+
+---
+
+## 🚀 Initial Setup
+
+1. **Initialize Migrations**
+
+   ```bash
+   dotnet ef migrations add InitialCreate
+   ```
+
+    * EF generates:
+
+        * A folder `Migrations/`
+        * A migration class (e.g. `20250507_InitialCreate.cs`)
+        * A **Snapshot file** (`ModelSnapshot.cs`) storing the full current model state.
+
+2. **Apply the Migration to the Database**
+
+   ```bash
+   dotnet ef database update
+   ```
+
+    * EF applies the migration SQL to the database.
+    * A table called `_EFMigrationsHistory` is created in the DB to track applied migrations.
+
+---
+
+## ✏️ Making Changes
+
+When you change any entity (add/remove/modify properties or classes):
+
+1. **Edit Your Entity Classes**
+
+2. **Create a New Migration**
+
+   ```bash
+   dotnet ef migrations add AddNewEntityOrField
+   ```
+
+    * EF compares the current model to the **snapshot file** and generates SQL for the differences.
+    * A new migration file is created.
+    * The snapshot file is updated.
+
+3. **Update the Database**
+
+   ```bash
+   dotnet ef database update
+   ```
+
+    * EF applies only the new changes.
+    * Migration history is updated in `_EFMigrationsHistory`.
+
+---
+
+## 🔁 Refresh Database (Optional)
+
+If you want to recreate the database from scratch:
+
+1. Delete the `Migrations/` folder.
+2. Drop the database manually or with:
+
+   ```bash
+   dotnet ef database drop
+   ```
+3. Create a new migration:
+
+   ```bash
+   dotnet ef migrations add InitDb
+   ```
+4. Update the database:
+
+   ```bash
+   dotnet ef database update
+   ```
+
+---
+
+## 📁 How EF Knows What Changed
+
+* EF uses the `ModelSnapshot.cs` to compare the current state of your entities.
+* `_EFMigrationsHistory` in the DB prevents reapplying the same migrations.
+* Every new migration reflects **only** the delta between the current model and the snapshot.
+
+---
+
+## ✅ Summary Checklist
+
+*
+
+---
+
+> 📌 Tip: Always review generated migration files before applying to ensure no accidental changes!
+
+## Seed data and rollback 
+seed data bang cach add new migration va update database qua Up and Down
+
+add migration -> designer file -> snanpshot file 1 lan duy nhat, chứa tất cả Entity
+moi file migration co chua Up and Down method, down cho rollback va Up cho add new, update
+
+khi migration moi, so sanh voi snapshot hien tai, neu khac thi thay doi vao Up and down
+va run migration updatabase ( neu co table __EFMigrationsHistory thi lưu, k có thì tạo)
+=> vậy nếu dùng mỗi snapshot đã biết enity nó thay đổi thì cần EFMigrationsHistory chi??
+=> ví dụ có 10 cái file Migration, thi khi nao update db no tìm cái name trong table đó có chưa?
+nếu có thì khỏi run, nếu k có thì run 
+
+## 🚀 Thiết Lập Ban Đầu
+Khởi Tạo Migration
+
+bash
+Sao chép
+Chỉnh sửa
+dotnet ef migrations add InitialCreate
+EF tạo ra:
+
+Một thư mục Migrations/
+
+Một lớp migration (ví dụ: 20250507_InitialCreate.cs)
+
+Một File Snapshot (ModelSnapshot.cs) lưu trữ trạng thái đầy đủ của mô hình hiện tại.
+Áp Dụng Migration vào Cơ Sở Dữ Liệu
+
+bash
+Sao chép
+Chỉnh sửa
+dotnet ef database update
+EF áp dụng SQL migration vào cơ sở dữ liệu.
+
+Một bảng có tên _EFMigrationsHistory sẽ được tạo ra trong cơ sở dữ liệu để theo dõi các migration đã được áp dụng.
+
+### Tạo Migration Mới
+
+bash
+Sao chép
+Chỉnh sửa
+dotnet ef migrations add AddNewEntityOrField
+EF so sánh mô hình hiện tại với file snapshot và tạo SQL cho những sự khác biệt.
+
+Một file migration mới sẽ được tạo ra.
+
+File snapshot sẽ được cập nhật.
+
+## EF chỉ áp dụng những thay đổi mới.
+
+Lịch sử migration sẽ được cập nhật trong bảng _EFMigrationsHistory.
+
+### 1. Rollback về Một Migration Cụ Thể
+   Để quay lại một migration cụ thể (ví dụ: quay lại migration 20250501010101_AddNewField), bạn có thể sử dụng lệnh sau:
+
+bash
+Sao chép
+Chỉnh sửa
+dotnet ef database update 20250501010101_AddNewField
+Lệnh này sẽ đưa cơ sở dữ liệu quay về trạng thái của migration đó, tức là tất cả các migration sau migration chỉ định sẽ bị "rollback" (bỏ qua).
